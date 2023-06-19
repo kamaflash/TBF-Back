@@ -9,21 +9,22 @@ const port = process.env.PORT
 const app = express();
 
 
+//cofigurar CORS
+app.use( cors() );
+
+//Lectura y parseo del body
+
+app.use( express.json())
+
 //Base de datos
 dbConnection();
 
 
-//cofigurar CORS
-app.use( cors() );
-
 // rutas
-app.get('/',(req,res) =>{
-    res.json({
-        ok:true,
-        msg: 'Hola'
-    }
-    )
-})
+
+app.use( '/api/usuarios', require('./router/usuario.router'));
+app.use( '/api/login', require('./router/auth.router'));
+
 
 
 app.listen( port, ( ) => {
