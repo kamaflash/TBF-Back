@@ -34,9 +34,12 @@ const login = async ( req, res = response ) =>{
             const token =  await generarJWT( userDb.id)
         return res.json({
             ok:true,
-            token
+            token,
+            usuario: userDb
         })
     } catch(error) {
+        console.log("Login Ko")
+
         return res.status( 500 ).json({
             ok:false,
             msg: 'Error en logeo'

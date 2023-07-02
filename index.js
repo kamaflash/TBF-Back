@@ -24,6 +24,8 @@ dbConnection();
 
 app.use( '/api/usuarios', require('./router/usuario.router'));
 app.use( '/api/login', require('./router/auth.router'));
+app.use( '/api/income', require('./router/income.router'));
+app.use( '/api/loan', require('./router/loan.router'));
 
 
 
