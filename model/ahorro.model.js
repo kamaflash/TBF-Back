@@ -1,43 +1,31 @@
 const {Schema, model} = require('mongoose')
 
-const loanSchema = Schema({
-    tipe: {
+const AhorroSchema = Schema({
+    origin: {
         type: String,
         required: true
     },
-    nombre: {
-        type: String,
-        required: true
-    },
-    cantTotal: {
+    cant: {
         type: Number,
         required: true,
     },
-    cantPendiente: {
-        type: Number,
-    },
-    recibos: {
-        type: Number,
-    },
-    recibosPendientes: {
-        type: Number,
-    },
-    cuota: {
-        type: Number,
+    tipe: {
+        type: String,
         required: true,
     },
     createAt: {
-        type: Date,
+        type: String,
     },
-    finishAt: {
-        type: Date,
+    time: {
+        type: Boolean,
         required: true,
-        
+        default: false
+
     },
     uid:{
         type: String,
     },
-    interes:{
+    associationId:{
         type: String,
     },
     description:{
@@ -50,11 +38,11 @@ const loanSchema = Schema({
 })
 
 
-loanSchema.method('toJSON', function(){
+AhorroSchema.method('toJSON', function(){
     const { __v, _id, ...object} = this.toObject();
     object.id = _id;
     return object;
 
 })
 
-module.exports = model( 'Loan', loanSchema);
+module.exports = model( 'Ahorro', AhorroSchema);

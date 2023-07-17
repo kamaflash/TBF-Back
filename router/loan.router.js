@@ -16,8 +16,8 @@ router.get('/',getLoans);
 router.get('/:id',getLoansByUID);
 
 router.post('/', [ 
-    check('origin','El nombre es obligatorio').not().isEmpty(),
-    check('cant','Formato email erroneo').not().isEmpty(),
+    check('nombre','El nombre es obligatorio').not().isEmpty(),
+    check('cantTotal','Formato email erroneo').not().isEmpty(),
     validarCampos,
    //  validarJWT
 

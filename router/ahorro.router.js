@@ -1,11 +1,11 @@
 
 
-// RUTA: /api/income
+// RUTA: /api/ahorro
 
 const { Router } = require("express");
 const { check } = require("express-validator");
 const { getUsuarios, setUsuario, putUsuario, delUsuario } = require("../controllers/usuario.controller");
-const {  setIncome, getIncomes, getIncomesByUID, putIncome, delIncome } = require("../controllers/income.controller");
+const {  setAhorro, getAhorros, getAhorrosByUID, putAhorro, delAhorro } = require("../controllers/ahorro.controller");
 const { validarCampos } = require("../middlewares/validar-campos");
 const { validarJWT } = require("../middlewares/validar-jwt");
 const { renewToken } = require("../controllers/auth.controller");
@@ -14,29 +14,30 @@ const { renewToken } = require("../controllers/auth.controller");
 const router = Router();
 
 
-router.get('/',[validarJWT],getIncomes);
-router.get('/:id',[validarJWT],getIncomesByUID);
+router.get('/',getAhorros);
+router.get('/:id',getAhorrosByUID);
 
 router.post('/', [ 
   //renewToken,
     check('origin','El nombre es obligatorio').not().isEmpty(),
     check('cant','Formato email erroneo').not().isEmpty(),
     validarCampos,
-    validarJWT
+    // validarJWT
 
   
-],setIncome);
+],setAhorro);
 
     router.put('/:id', [ 
         check('origin','El nombre es obligatorio').not().isEmpty(),
         check('cant','La cantidad es obligatoria').not().isEmpty(),
         validarCampos,
-        validarJWT
+      //   validarJWT
 
-     ],putIncome);
+     ],putAhorro);
 
      router.delete('/:id',
-     [validarJWT],
-        delIncome);
+        validarCampos,
+        //validarJWT,
+        delAhorro);
         
 module.exports = router;

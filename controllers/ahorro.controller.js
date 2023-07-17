@@ -2,32 +2,32 @@ const { response } = require('express')
 const cryp = require('bcryptjs')
 const { validationResult } = require('express-validator')
 
-const Loan = require('../model/loan.model')
+const Ahorro = require('../model/ahorro.model')
 const { generarJWT } = require('../helpers/jwt')
 
-const getLoans = async(req,res) =>{
+const getAhorros = async(req,res) =>{
 
-    const loans = await Loan.find();
+    const ahorros = await Ahorro.find();
 
     res.json({
         ok:true,
-        loans
+        ahorros
     }
     )
 }
-const getLoansByUID = async(req,res) =>{
+const getAhorrosByUID = async(req,res) =>{
     const  uid = req.params.id;
-    const loans = await Loan.find({ uid })
+    const ahorros = await Ahorro.find({ uid })
     
     res.json({
-        loans
+        ahorros
     }
     )
 }
 
-const setLoan = async(req,res) =>{
-    const { nombre } = req.body;
-    const exits = await Loan.findOne({ nombre })
+const setAhorro = async(req,res) =>{
+    const { origin } = req.body;
+    const exits = await Ahorro.findOne({ origin })
         if( exits ) {
             return res.status( 500 ).json({
                 ok:false,
@@ -35,11 +35,11 @@ const setLoan = async(req,res) =>{
             })
         }
         try{
-            const loan = new Loan( req.body )
-            loan.createAt = new Date();
-            loan.uid = 
-            await loan.save();
-            const iID = await Loan.findOne({ nombre })
+            const ahorro = new Ahorro( req.body )
+            ahorro.createAt = new Date();
+            ahorro.uid = 
+            await ahorro.save();
+            const iID = await Ahorro.findOne({ origin })
             return res.json({
                 ok:true,
                 iID,
@@ -52,50 +52,55 @@ const setLoan = async(req,res) =>{
         }
 }
 
-const putLoan = async(req,res = response) =>{
+const putAhorro = async(req,res = response) =>{
 
-    // Toda la parte de validar token y comprobar loan correcto iria aqui.
+    // Toda la parte de validar token y comprobar ahorro correcto iria aqui.
     const  uid = req.params.id;
     const { } = req.body;
         try{
-            const loanDb = await Loan.findById( uid );
-            if(!loanDb) {
+            const ahorroDb = await Ahorro.findById( uid );
+            if(!ahorroDb) {
                 return res.status(404).json ({
                     ok:false,
-                    msg: 'No existe el loan con dicho id'
+                    msg: 'No existe el ahorro con dicho id'
                 });
             }
             //Actualizaciones
+
             const campos = req.body;
-           const loanUpdate = await Loan.findByIdAndUpdate ( uid, campos, {new: true} )
+            // delete campos.password;
+            // delete campos.google;
+            // delete campos.email;
+
+           const ahorroUpdate = await Ahorro.findByIdAndUpdate ( uid, campos, {new: true} )
            return res.json({
             ok:true,
-            loanUpdate
+            ahorroUpdate
         })
         } catch (error) {
             return res.status( 500 ).json({
                     ok:false,
-                    msg: 'Error al actualizar loan'
+                    msg: 'Error al actualizar ahorro'
                 })
         }
 }
 
-const delLoan = async(req,res = response) =>{
+const delAhorro = async(req,res = response) =>{
 
     const  uid = req.params.id;
     try{
 
-        const userDb = await Loan.findById( uid );
+        const userDb = await Ahorro.findById( uid );
 
 
             if(!userDb) {
                 return res.status(404).json ({
                     ok:false,
-                    msg: 'No existe el loan con dicho id'
+                    msg: 'No existe el ahorro con dicho id'
                 });
             }
             userDb.active = false;
-            const usuarioUpdate = await Loan.findByIdAndUpdate ( uid, userDb, {new: true} )
+            const usuarioUpdate = await Ahorro.findByIdAndUpdate ( uid, userDb, {new: true} )
             return res.json({
              ok:true,
              usuarioUpdate
@@ -104,14 +109,14 @@ const delLoan = async(req,res = response) =>{
     } catch(error) {
         return res.status( 500 ).json({
             ok:false,
-            msg: 'Error al actualizar loan'
+            msg: 'Error al actualizar ahorro'
         })
     }
 }
 module.exports = {
-    setLoan,
-    getLoans,
-    getLoansByUID,
-    putLoan,
-    delLoan
+    setAhorro,
+    getAhorros,
+    getAhorrosByUID,
+    putAhorro,
+    delAhorro
 }
