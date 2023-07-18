@@ -27,7 +27,7 @@ app.use( '/api/login', require('./router/auth.router'));
 app.use( '/api/income', require('./router/income.router'));
 app.use( '/api/loan', require('./router/loan.router'));
 app.use( '/api/ahorro', require('./router/ahorro.router'));
-// app.use( '/api/upload', require('./router/upload'));
+app.use( '/api/upload', require('./router/upload.router'));
 
 
 
